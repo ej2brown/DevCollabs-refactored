@@ -14,16 +14,7 @@ export class GroupExpressRoutes extends AbstractExpressRoutes {
     return this.m_dbHelpers;
   }
 
-  // get all groups posts. returns data: {array<[group_id:interger, user_id:interger, data:string, created_at:time]>}
   private setupRouter(): void {
-    this.router.get("/public", (req, res) => {
-      this.dbHelpers
-        .getAllGroups()
-        .then((data) => {
-          res.send(data);
-        })
-        .catch((e) => e.stack);
-    });
 
     this.router.get("/:group_id", (req, res) => {
       const selectedGroupId = req.params.group_id;
