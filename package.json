@@ -2,6 +2,8 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
   "dependencies": {
     "@reduxjs/toolkit": "^1.2.5",
     "@testing-library/jest-dom": "^4.2.4",
@@ -27,12 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "db:reset": "node bin/resetdb.js",
-    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
-    "webpack": "webpack",
-    "server": "node server.ts",
-    "start:webpack": "webpack-dev-server",
-    "start:tsc": "tsc && node dist/server.js"
+    "test-server": "karma start",
+    "build-server": "tsc --p tsconfig-server.json"
   },
   "eslintConfig": {
     "extends": "react-app"

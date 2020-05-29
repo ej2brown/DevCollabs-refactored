@@ -1,7 +1,8 @@
-// import {IRoutes} from './routes/routes.interface';
-// import {IndexExpressRoutes} from './routes/index';
-// import {GroupExpressRoutes} from './routes/group';
-// import {UserExpressRoutes} from './routes/user';
+import {IRoutes} from '../routes/routes.interface';
+import {IndexExpressRoutes} from '../routes/index';
+import {GroupExpressRoutes} from '../routes/group';
+import {UserExpressRoutes} from '../routes/user';
+import {RateExpressRoutes} from '../routes/rate';
 
 const express = require("express")
 const webpack = require('webpack');
