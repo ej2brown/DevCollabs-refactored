@@ -1,3 +1,3 @@
-export interface IQuery {
-    query: string;
+export default interface IQuery {
+  readonly db: any;
 }

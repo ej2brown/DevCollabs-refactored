@@ -1,15 +1,17 @@
 const bcrypt = require("bcrypt");
-import { IQuery } from "./dbHelpers";
+import IQuery from "./interface"
 
 export class dbHelpersClass implements IQuery {
-  constructor() {
-    
+  db: any;
+
+  constructor(db: any) {
+    this.db = db;
   }
 
   /* For ../user.ts */
-  addUser = function (user: any) {
+  addUser(user: any) {
     const { username, email, password, avatar_image } = user;
-    return db
+    return this.db
       .query(
         `
         INSERT INTO users
@@ -25,10 +27,10 @@ export class dbHelpersClass implements IQuery {
         return res.rows[0];
       })
       .catch((e) => null);
-  };
+  }
 
-  getGroupsNames = function (userId: number) {
-    return db
+  getGroupsNames(userId: number) {
+    return this.db
       .query(
         `
         SELECT groups.id, groups.name
@@ -42,24 +44,24 @@ export class dbHelpersClass implements IQuery {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
-  };
+  }
 
   /* For ../group.ts */
-  getAllGroups = function() {
-    return db
+  getAllGroups() {
+    return this.db
       .query(
         `
         SELECT * FROM groups;
         `
       )
-      .then(res => {
-        if (res.rows.length === 0) return null
-        return res.rows
-      })
+      .then((res) => {
+        if (res.rows.length === 0) return null;
+        return res.rows;
+      });
   }
 
-  getGroupsPosts = function(groupId) {
-    return db
+  getGroupsPosts(groupId: number) {
+    return this.db
       .query(
         `
         SELECT posts.*, username
@@ -70,14 +72,14 @@ export class dbHelpersClass implements IQuery {
         `,
         [groupId]
       )
-      .then(res => {
-        if (res.rows.length === 0) return null
-        return res.rows
-      })
+      .then((res) => {
+        if (res.rows.length === 0) return null;
+        return res.rows;
+      });
   }
 
-  createPost = (group_id, user_id, data, image_url) => {
-    return db
+  createPost = (groupId: number, userId: number, data: any, image_url: string) => {
+    return this.db
       .query(
         `
       INSERT INTO posts 
@@ -86,48 +88,47 @@ export class dbHelpersClass implements IQuery {
       ($1 , $2, $3, $4, NOW()::TIMESTAMP)
       RETURNING *;
       `,
-        [group_id, user_id, data, image_url]
-        // [group_id, user_id, data, image_url | null]
+        [groupId, userId, data, image_url]
       )
-      .then(res => res.rows[0])
-      .catch(e => e.stack)
-  }
+      .then((res) => res.rows[0])
+      .catch((e) => e.stack);
+  };
 
-  removeSubscription = (userID, groupID) => {
-    return db
+  removeSubscription = (userId: number, groupId: number) => {
+    return this.db
       .query(
         `
         DELETE FROM subscriptions
         WHERE user_id = $1
         AND group_id = $2; 
       `,
-        [userID, groupID]
+        [userId, groupId]
       )
-      .then(res => res.rows[0])
-      .catch(e => e.stack)
-  }
+      .then((res) => res.rows[0])
+      .catch((e) => e.stack);
+  };
 
-  checkUserSubscription = function(user_id, group_id) {
-    return db
+  checkUserSubscription(userId: number, groupId: number) {
+    return this.db
       .query(
         `
         SELECT * FROM subscriptions 
         WHERE user_id = $1 
         AND group_id = $2;
         `,
-        [user_id, group_id]
+        [userId, groupId]
       )
-      .then(res => {
+      .then((res) => {
         if (res.rows.length === 0) {
-          return false
+          return false;
         }
-        return true
+        return true;
       })
-      .catch(e => e.stack)
+      .catch((e) => e.stack);
   }
 
-  addSubscription = function(groupId, userId, is_admin) {
-    return db
+  addSubscription(groupId :number, userId: number, is_admin: boolean) {
+    return this.db
       .query(
         `
     INSERT INTO subscriptions
@@ -138,12 +139,12 @@ export class dbHelpersClass implements IQuery {
     `,
         [groupId, userId, is_admin]
       )
-      .then(res => res.rows[0])
-      .catch(e => null)
+      .then((res) => res.rows[0])
+      .catch((e) => null);
   }
 
-  createGroupAndSubscription = function(userId, groupName) {
-    return db
+  createGroupAndSubscription(userId :number, groupName :string) {
+    return this.db
       .query(
         `
         INSERT INTO groups
@@ -154,27 +155,28 @@ export class dbHelpersClass implements IQuery {
         `,
         [groupName]
       )
-      .then(res => res.rows[0].id)
-      .then(groupId => {
-         return db.query(
-          `
+      .then((res) => res.rows[0].id)
+      .then((groupId) => {
+        return this.db
+          .query(
+            `
           INSERT INTO subscriptions
           (group_id, user_id, is_admin)
           VALUES
           ($1, $2, $3)
           RETURNING *;
           `,
-          [groupId, userId, true]
-        )
-        .then(res => {
-          return res.rows[0]
-        })
-        .catch(e => e)
-      })
+            [groupId, userId, true]
+          )
+          .then((res) => {
+            return res.rows[0];
+          })
+          .catch((e) => e);
+      });
   }
 
-  getSubscriptionsWithUser = (user_id, group_id) => {
-    return db
+  getSubscriptionsWithUser = (userId :number, groupId :number) => {
+    return this.db
       .query(
         `
         SELECT * FROM subscriptions
@@ -182,43 +184,43 @@ export class dbHelpersClass implements IQuery {
         AND group_id = $2
         LIMIT 1;
           `,
-        [user_id, group_id]
+        [userId, groupId]
       )
       .then((res) => res.rows[0])
       .catch((e) => e.stack);
   };
 
-  deleteGroup = group_id => {
-    return db
+  deleteGroup = (groupId :number) => {
+    return this.db
       .query(
         `
         DELETE FROM groups
         WHERE id = $1;
         `,
-        [group_id]
+        [groupId]
       )
-      .then(res => res.rows[0])
-      .catch(e => e.stack)
-  }
+      .then((res) => res.rows[0])
+      .catch((e) => e.stack);
+  };
 
   /* For ../rate.ts */
 
-  getUserRating = (userID) => {
-    return db
+  getUserRating = (userId :number) => {
+    return this.db
       .query(
         `
           SELECT AVG(rating)
           FROM ratings
           WHERE rated_user_id = $1;
         `,
-        [userID]
+        [userId]
       )
       .then((res) => res.rows[0])
       .catch((e) => e);
   };
 
-  checkRatingExist = (ratedId, raterId) => {
-    return db
+  checkRatingExist = (ratedId :number, raterId :number) => {
+    return this.db
       .query(
         `
         SELECT * FROM ratings
@@ -231,8 +233,8 @@ export class dbHelpersClass implements IQuery {
       .catch((e) => e);
   };
 
-  rateUser = (ratedId, raterId, rating) => {
-    return db
+  rateUser = (ratedId :number, raterId :number, rating :number) => {
+    return this.db
       .query(
         `
       INSERT INTO ratings
@@ -247,8 +249,8 @@ export class dbHelpersClass implements IQuery {
       .catch((e) => e);
   };
 
-  updateRating = (ratedId, raterId, newRating) => {
-    return db
+  updateRating = (ratedId :number, raterId :number, newRating :number) => {
+    return this.db
       .query(
         `
       UPDATE ratings
