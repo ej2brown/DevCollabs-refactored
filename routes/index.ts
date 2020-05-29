@@ -27,3 +27,4 @@ export class IndexExpressRoutes extends AbstractExpressRoutes {
     });
   }
 }
+module.exports.IndexExpressRoutes = IndexExpressRoutes;

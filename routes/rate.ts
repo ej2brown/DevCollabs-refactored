@@ -55,3 +55,5 @@ export class RateExpressRoutes extends AbstractExpressRoutes {
     });
   }
 }
+
+module.exports.RateExpressRoutes = RateExpressRoutes;

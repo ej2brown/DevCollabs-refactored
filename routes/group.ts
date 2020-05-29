@@ -123,3 +123,5 @@ export class GroupExpressRoutes extends AbstractExpressRoutes {
     });
   }
 }
+
+module.exports.GroupExpressRoutes = GroupExpressRoutes;

@@ -37,3 +37,5 @@ export class UserExpressRoutes extends AbstractExpressRoutes {
     });
   }
 }
+
+module.exports.UserExpressRoutes = UserExpressRoutes;

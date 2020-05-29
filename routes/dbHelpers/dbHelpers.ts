@@ -265,3 +265,6 @@ export class dbHelpersClass implements IQuery {
       .catch((e) => e);
   };
 }
+
+
+module.exports.dbHelpersClass = dbHelpersClass;
