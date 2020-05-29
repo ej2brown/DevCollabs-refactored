@@ -2,13 +2,15 @@ var path = require('path');
  var webpack = require('webpack');
 
  module.exports = {
-     entry: './js/main.js',
+    mode: 'development',
+     entry: './src/index.js',
      output: {
          path: path.resolve(__dirname, 'build'),
-         filename: 'main.bundle.js'
+         filename: 'main.bundle.js',
+         publicPath: '/',
      },
      module: {
-         loaders: [
+         rules: [
              {
                  test: /\.js$/,
                  loader: 'babel-loader',
@@ -21,5 +23,8 @@ var path = require('path');
      stats: {
          colors: true
      },
-     devtool: 'source-map'
+     devtool: 'source-map',
+     devServer: {
+        inline: false,
+    },
  };

@@ -2,17 +2,28 @@
 // import {IndexExpressRoutes} from './routes/index';
 // import {GroupExpressRoutes} from './routes/group';
 // import {UserExpressRoutes} from './routes/user';
-const RateExpressRoutes = require('./routes/rate');
 
-require("dotenv").config()
 const express = require("express")
-const app = express()
-const cors = require("cors")
-const bodyParser = require("body-parser")
-const http = require("http")
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
 
-app.use(bodyParser.json())
-app.use(cors())
+const app = express()
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
+
+// const cors = require("cors")
+// const bodyParser = require("body-parser")
+const http = require("http")
+const RateExpressRoutes = require('./routes/rate');
+require("dotenv").config()
+
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath,
+}));
+
+// app.use(bodyParser.json())
+// app.use(cors())
 
 const PORT = 3001
 
