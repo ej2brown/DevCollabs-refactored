@@ -1,12 +1,12 @@
 import { AbstractExpressRoutes } from "./expressRoutes";
-const dbHelpersClass = require("./dbHelpers/dbHelpers.ts");
+const dbHelpersClass = require("./dbHelpers/dbHelpers");
 
 export class UserExpressRoutes extends AbstractExpressRoutes {
   private m_dbHelpers: any;
 
   constructor(baseEndpoint: string, db: any) {
     super(baseEndpoint);
-    this.m_dbHelpers = dbHelpersClass(db);
+    this.m_dbHelpers = dbHelpersClass;
     this.setupRouter();
   }
 

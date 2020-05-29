@@ -1,34 +1,31 @@
-import {IRoutes} from '../routes/routes.interface';
-import {IndexExpressRoutes} from '../routes/index';
-import {GroupExpressRoutes} from '../routes/group';
-import {UserExpressRoutes} from '../routes/user';
-import {RateExpressRoutes} from '../routes/rate';
+import { IRoutes } from '../routes/routes.interface';
+import { IndexExpressRoutes } from '../routes/index';
+import { GroupExpressRoutes } from '../routes/group';
+import { UserExpressRoutes } from '../routes/user';
+import { RateExpressRoutes } from '../routes/rate';
 
-const express = require("express")
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-
-const app = express()
-const config = require('./webpack.config.js');
-const compiler = webpack(config);
-
-// const cors = require("cors")
-// const bodyParser = require("body-parser")
-const http = require("http")
-const RateExpressRoutes = require('./routes/rate');
 require("dotenv").config()
+const express = require("express");
+const app = express()
+const cors = require("cors")
+const bodyParser = require("body-parser")
+const http = require("http")
 
-
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-}));
-
-// app.use(bodyParser.json())
-// app.use(cors())
+app.use(bodyParser.json())
+app.use(cors())
 
 const PORT = 3001
 
 const server = http.createServer(app)
+
+// const webpack = require('webpack');
+// const webpackDevMiddleware = require('webpack-dev-middleware');
+// const config = require('./webpack.config.js');
+// const compiler = webpack(config);
+
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath,
+// }));
 
 const { Pool } = require("pg")
 const dbParams = {
@@ -40,15 +37,14 @@ const dbParams = {
 }
 const db = new Pool(dbParams)
 
+const indexRoutes: IRoutes = new IndexExpressRoutes('/', db);
+const groupRoutes: IRoutes = new GroupExpressRoutes('/group', db);
+const userRoutes: IRoutes = new UserExpressRoutes('/user', db);
+const rateRoutes: IRoutes = new RateExpressRoutes('/rate', db);
 
-// const indexRoutes = new IndexExpressRoutes('/', db);
-// const groupRoutes = new GroupExpressRoutes('/group', db);
-// const userRoutes = new UserExpressRoutes('/user', db);
-const rateRoutes = new RateExpressRoutes('/rate', db);
-
-// app.use(indexRoutes.baseEndpoint, indexRoutes.router)
-// app.use(groupRoutes.baseEndpoint, groupRoutes.router)
-// app.use(userRoutes.baseEndpoint, userRoutes.router)
+app.use(indexRoutes.baseEndpoint, indexRoutes.router)
+app.use(groupRoutes.baseEndpoint, groupRoutes.router)
+app.use(userRoutes.baseEndpoint, userRoutes.router)
 app.use(rateRoutes.baseEndpoint, rateRoutes.router)
 
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
