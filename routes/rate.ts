@@ -15,45 +15,47 @@ export class RateExpressRoutes extends AbstractExpressRoutes {
   }
 
   private setupRouter(): void {
-    this.router.get("/:user_id", (req, res) => {
+    this.router.get("/:user_id", (req: { params: { user_id: any; }; }, res: { send: (arg0: any) => void; }) => {
       const ratedUserId = req.params.user_id;
       this.dbHelpers
         .getUserRating(ratedUserId)
-        .then((data) => {
+        .then((data: any) => {
           res.send(data);
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
 
-    this.router.post("/:rated_id", (req, res) => {
+    this.router.post("/:rated_id", (req: { params: { rated_id: any; }; body: { raterId: any; rating: any; }; }, res: { send: (arg0: any) => void; }) => {
       const ratedId = req.params.rated_id;
       const { raterId, rating } = req.body;
 
       this.dbHelpers
         .checkRatingExist(ratedId, raterId)
-        .then((data) => {
+        .then((data: any) => {
           //
           if (!data) {
             //If rating doesnt exist create a rating
             this.dbHelpers
               .rateUser(ratedId, raterId, rating)
-              .then((data) => {
+              .then((data: any) => {
                 res.send(data);
               })
-              .catch((e) => e.stack);
+              .catch((e: { stack: any; }) => e.stack);
           } else {
             //Change user rating if it does
             this.dbHelpers
               .updateRating(ratedId, raterId, rating)
-              .then((data) => {
+              .then((data: any) => {
                 res.send(data);
               })
-              .catch((e) => e.stack);
+              .catch((e: { stack: any; }) => e.stack);
           }
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
   }
 }
 
-module.exports.RateExpressRoutes = RateExpressRoutes;
+
+
+exports.RateExpressRoutes = RateExpressRoutes;

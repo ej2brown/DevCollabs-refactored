@@ -13,14 +13,14 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.7",
     "@types/styled-components": "^5.1.0",
+    "express": "^4.17.1",
     "pg-native": "^3.0.0",
     "react": "^16.13.1",
     "react-ace": "^9.0.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.1",
-    "styled-components": "^5.1.1",
-    "typescript": "~3.8.2"
+    "styled-components": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,8 +30,9 @@
     "db:reset": "node bin/resetdb.js",
     "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
     "webpack": "webpack",
-    "server": "node server.js",
-    "start:webpack": "webpack-dev-server"
+    "server": "node server.ts",
+    "start:webpack": "webpack-dev-server",
+    "start:tsc": "tsc && node dist/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,9 +65,12 @@
     ]
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
     "babel-core": "^6.26.0",
     "babel-loader": "^8.1.0",
     "react-hot-loader": "^3.1.1",
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-config-utils": "^2.3.0",

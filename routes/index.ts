@@ -16,14 +16,14 @@ export class IndexExpressRoutes extends AbstractExpressRoutes {
 
   private setupRouter(): void {
     //returns data: {array<[group_id:interger, user_id:interger, data:string, created_at:time]>}
-    this.router.get("/", (req, res) => {
+    this.router.get("/", (req: any, res: { send: (arg0: any) => void; }) => {
       this.dbHelpers
         //get all groups posts
         .getAllGroups()
-        .then((data) => {
+        .then((data: any) => {
           res.send(data);
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
   }
 }

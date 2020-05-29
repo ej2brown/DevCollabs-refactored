@@ -1,4 +1,4 @@
-import { IRoutes } from "./routes.interface";
+import type { IRoutes } from "./routes.interface";
 
 const express = require("express");
 

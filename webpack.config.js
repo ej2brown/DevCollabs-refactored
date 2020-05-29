@@ -3,16 +3,16 @@ var path = require('path');
 
  module.exports = {
     mode: 'development',
-     entry: './src/index.js',
+     entry: './src/index.ts',
      output: {
          path: path.resolve(__dirname, 'build'),
-         filename: 'main.bundle.js',
+         filename: 'main.bundle.ts',
          publicPath: '/',
      },
      module: {
          rules: [
              {
-                 test: /\.js$/,
+                 test: /\.ts$/,
                  loader: 'babel-loader',
                  query: {
                      presets: ['es2015']

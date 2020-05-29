@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-import IQuery from "./interface"
+import type IQuery from "./interface"
 
 export class dbHelpersClass implements IQuery {
   db: any;
@@ -22,11 +22,11 @@ export class dbHelpersClass implements IQuery {
         `,
         [username, email, bcrypt.hashSync(password, 12), avatar_image]
       )
-      .then((res) => {
+      .then((res: { rows: string | any[]; }) => {
         if (res.rows.length === 0) return null;
         return res.rows[0];
       })
-      .catch((e) => null);
+      .catch((e: any) => null);
   }
 
   getGroupsNames(userId: number) {
@@ -40,7 +40,7 @@ export class dbHelpersClass implements IQuery {
         `,
         [userId]
       )
-      .then((res) => {
+      .then((res: { rows: string | any[]; }) => {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
@@ -54,7 +54,7 @@ export class dbHelpersClass implements IQuery {
         SELECT * FROM groups;
         `
       )
-      .then((res) => {
+      .then((res: { rows: string | any[]; }) => {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
@@ -72,7 +72,7 @@ export class dbHelpersClass implements IQuery {
         `,
         [groupId]
       )
-      .then((res) => {
+      .then((res: { rows: string | any[]; }) => {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
@@ -90,8 +90,8 @@ export class dbHelpersClass implements IQuery {
       `,
         [groupId, userId, data, image_url]
       )
-      .then((res) => res.rows[0])
-      .catch((e) => e.stack);
+      .then((res: { rows: any[]; }) => res.rows[0])
+      .catch((e: { stack: any; }) => e.stack);
   };
 
   removeSubscription = (userId: number, groupId: number) => {
@@ -104,8 +104,8 @@ export class dbHelpersClass implements IQuery {
       `,
         [userId, groupId]
       )
-      .then((res) => res.rows[0])
-      .catch((e) => e.stack);
+      .then((res: { rows: any[]; }) => res.rows[0])
+      .catch((e: { stack: any; }) => e.stack);
   };
 
   checkUserSubscription(userId: number, groupId: number) {
@@ -118,13 +118,13 @@ export class dbHelpersClass implements IQuery {
         `,
         [userId, groupId]
       )
-      .then((res) => {
+      .then((res: { rows: string | any[]; }) => {
         if (res.rows.length === 0) {
           return false;
         }
         return true;
       })
-      .catch((e) => e.stack);
+      .catch((e: { stack: any; }) => e.stack);
   }
 
   addSubscription(groupId :number, userId: number, is_admin: boolean) {
@@ -139,8 +139,8 @@ export class dbHelpersClass implements IQuery {
     `,
         [groupId, userId, is_admin]
       )
-      .then((res) => res.rows[0])
-      .catch((e) => null);
+      .then((res: { rows: any[]; }) => res.rows[0])
+      .catch((e: any) => null);
   }
 
   createGroupAndSubscription(userId :number, groupName :string) {
@@ -155,8 +155,8 @@ export class dbHelpersClass implements IQuery {
         `,
         [groupName]
       )
-      .then((res) => res.rows[0].id)
-      .then((groupId) => {
+      .then((res: { rows: { id: any; }[]; }) => res.rows[0].id)
+      .then((groupId: any) => {
         return this.db
           .query(
             `
@@ -168,10 +168,10 @@ export class dbHelpersClass implements IQuery {
           `,
             [groupId, userId, true]
           )
-          .then((res) => {
+          .then((res: { rows: any[]; }) => {
             return res.rows[0];
           })
-          .catch((e) => e);
+          .catch((e: any) => e);
       });
   }
 
@@ -186,8 +186,8 @@ export class dbHelpersClass implements IQuery {
           `,
         [userId, groupId]
       )
-      .then((res) => res.rows[0])
-      .catch((e) => e.stack);
+      .then((res: { rows: any[]; }) => res.rows[0])
+      .catch((e: { stack: any; }) => e.stack);
   };
 
   deleteGroup = (groupId :number) => {
@@ -199,8 +199,8 @@ export class dbHelpersClass implements IQuery {
         `,
         [groupId]
       )
-      .then((res) => res.rows[0])
-      .catch((e) => e.stack);
+      .then((res: { rows: any[]; }) => res.rows[0])
+      .catch((e: { stack: any; }) => e.stack);
   };
 
   /* For ../rate.ts */
@@ -215,8 +215,8 @@ export class dbHelpersClass implements IQuery {
         `,
         [userId]
       )
-      .then((res) => res.rows[0])
-      .catch((e) => e);
+      .then((res: { rows: any[]; }) => res.rows[0])
+      .catch((e: any) => e);
   };
 
   checkRatingExist = (ratedId :number, raterId :number) => {
@@ -229,8 +229,8 @@ export class dbHelpersClass implements IQuery {
       `,
         [ratedId, raterId]
       )
-      .then((res) => res.rows[0] || null)
-      .catch((e) => e);
+      .then((res: { rows: any[]; }) => res.rows[0] || null)
+      .catch((e: any) => e);
   };
 
   rateUser = (ratedId :number, raterId :number, rating :number) => {
@@ -245,8 +245,8 @@ export class dbHelpersClass implements IQuery {
       `,
         [raterId, ratedId, rating]
       )
-      .then((res) => res.rows[0] || null)
-      .catch((e) => e);
+      .then((res: { rows: any[]; }) => res.rows[0] || null)
+      .catch((e: any) => e);
   };
 
   updateRating = (ratedId :number, raterId :number, newRating :number) => {
@@ -261,8 +261,8 @@ export class dbHelpersClass implements IQuery {
       `,
         [ratedId, raterId, newRating]
       )
-      .then((res) => res.rows[0] || null)
-      .catch((e) => e);
+      .then((res: { rows: any[]; }) => res.rows[0] || null)
+      .catch((e: any) => e);
   };
 }
 
