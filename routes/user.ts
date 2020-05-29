@@ -16,7 +16,6 @@ export class UserExpressRoutes extends AbstractExpressRoutes {
 
   // get all groups ids and names the user belongs to. returns data: {array<[id:interger, name:string]>}
   private setupRouter(): void {
-
     this.router.post("/register", (req, res) => {
       const currentUserId = req.body;
       this.dbHelpers

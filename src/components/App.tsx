@@ -1,12 +1,11 @@
 import React from 'react';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { CodeEditor } from './CodeEditor';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Counter />
+        <CodeEditor/>
       </header>
     </div>
   );

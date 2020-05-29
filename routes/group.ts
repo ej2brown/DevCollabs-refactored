@@ -15,7 +15,6 @@ export class GroupExpressRoutes extends AbstractExpressRoutes {
   }
 
   private setupRouter(): void {
-
     this.router.get("/:group_id", (req, res) => {
       const selectedGroupId = req.params.group_id;
       this.dbHelpers

@@ -1,4 +1,4 @@
-import {AbstractExpressRoutes} from './expressRoutes';
+import { AbstractExpressRoutes } from "./expressRoutes";
 const dbHelpersClass = require("./dbHelpers/dbHelpers.ts");
 
 export class RateExpressRoutes extends AbstractExpressRoutes {
@@ -16,42 +16,42 @@ export class RateExpressRoutes extends AbstractExpressRoutes {
 
   private setupRouter(): void {
     this.router.get("/:user_id", (req, res) => {
-      const ratedUserId = req.params.user_id
+      const ratedUserId = req.params.user_id;
       this.dbHelpers
         .getUserRating(ratedUserId)
-        .then(data => {
-          res.send(data)
+        .then((data) => {
+          res.send(data);
         })
-        .catch(e => e.stack)
-    })
+        .catch((e) => e.stack);
+    });
 
     this.router.post("/:rated_id", (req, res) => {
-      const ratedId = req.params.rated_id
-      const { raterId, rating } = req.body
+      const ratedId = req.params.rated_id;
+      const { raterId, rating } = req.body;
 
       this.dbHelpers
         .checkRatingExist(ratedId, raterId)
-        .then(data => {
+        .then((data) => {
           //
           if (!data) {
             //If rating doesnt exist create a rating
             this.dbHelpers
               .rateUser(ratedId, raterId, rating)
-              .then(data => {
-                res.send(data)
+              .then((data) => {
+                res.send(data);
               })
-              .catch(e => e.stack)
+              .catch((e) => e.stack);
           } else {
             //Change user rating if it does
             this.dbHelpers
               .updateRating(ratedId, raterId, rating)
-              .then(data => {
-                res.send(data)
+              .then((data) => {
+                res.send(data);
               })
-              .catch(e => e.stack)
+              .catch((e) => e.stack);
           }
         })
-        .catch(e => e.stack)
-    })
+        .catch((e) => e.stack);
+    });
   }
 }
