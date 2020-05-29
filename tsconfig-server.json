@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "allowJs": true,
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "server-src/*",
+        "server-src/**/*",
+        "routes/*",
+        "routes/**/*"
+    ],
+    "exclude": [
+        "src",
+        "dist",
+        "build",
+        "public",
+        "node_modules",
+        "db"
+    ]
+  }
