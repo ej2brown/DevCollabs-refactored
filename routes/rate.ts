@@ -6,7 +6,7 @@ export class RateExpressRoutes extends AbstractExpressRoutes {
 
   constructor(baseEndpoint: string, db: any) {
     super(baseEndpoint);
-    this.m_dbHelpers = dbHelpersClass;
+    this.m_dbHelpers = dbHelpersClass(db);
     this.setupRouter();
   }
 
@@ -27,8 +27,13 @@ export class RateExpressRoutes extends AbstractExpressRoutes {
 
     this.router.post("/:rated_id", (req: { params: { rated_id: any; }; body: { raterId: any; rating: any; }; }, res: { send: (arg0: any) => void; }) => {
       const ratedId = req.params.rated_id;
-      const { raterId, rating } = req.body;
+      const raterId = 1;
+      const rating = 5;
 
+      // const { raterId, rating } = req.body;
+      console.log('here')
+
+      console.log(req.body)
       this.dbHelpers
         .checkRatingExist(ratedId, raterId)
         .then((data: any) => {

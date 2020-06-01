@@ -6,7 +6,7 @@ const dbHelpersClass = require("./dbHelpers/dbHelpers");
 class RateExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
     constructor(baseEndpoint, db) {
         super(baseEndpoint);
-        this.m_dbHelpers = dbHelpersClass;
+        this.m_dbHelpers = dbHelpersClass(db);
         this.setupRouter();
     }
     get dbHelpers() {

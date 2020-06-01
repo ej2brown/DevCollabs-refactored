@@ -15,9 +15,10 @@ class IndexExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
     setupRouter() {
         //returns data: {array<[group_id:interger, user_id:interger, data:string, created_at:time]>}
         this.router.get("/", (req, res) => {
+            const test = 'test'
             this.dbHelpers
                 //get all groups posts
-                .getAllGroups()
+                .getAllGroups(test)
                 .then((data) => {
                     console.log(data);
                     res.send(data);

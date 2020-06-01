@@ -40,7 +40,8 @@ module.exports = db => {
         });
     };
     /* For ../group.ts */
-    const getAllGroups = function () {
+    const getAllGroups = function (test) {
+        console.log(test)
         return db
             .query(`
         SELECT * FROM groups;

@@ -6,7 +6,7 @@ export class GroupExpressRoutes extends AbstractExpressRoutes {
 
   constructor(baseEndpoint: string, db: any) {
     super(baseEndpoint);
-    this.m_dbHelpers = dbHelpersClass;
+    this.m_dbHelpers = dbHelpersClass(db);
     this.setupRouter();
   }
 

@@ -1,4 +1,4 @@
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 import type IQuery from "./interface"
 
 // export class dbHelpersClass implements IQuery {
@@ -21,7 +21,7 @@ module.exports = db => {
         ($1, $2, $3, $4)
         RETURNING *;
         `,
-        [username, email, password, avatar_image] //removed bcrypt bcrypt.hashSync(password, 12)
+        [username, email, bcrypt.hashSync(password, 12), avatar_image] //removed bcrypt bcrypt.hashSync(password, 12)
       )
       .then((res: { rows: string | any[]; }) => {
         if (res.rows.length === 0) return null;
