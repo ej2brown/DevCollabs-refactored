@@ -6,7 +6,7 @@ export class IndexExpressRoutes extends AbstractExpressRoutes {
 
   constructor(baseEndpoint: string, db: any) {
     super(baseEndpoint);
-    this.m_dbHelpers = dbHelpersClass;
+    this.m_dbHelpers = dbHelpersClass(db);
     this.setupRouter();
   }
 
@@ -17,13 +17,15 @@ export class IndexExpressRoutes extends AbstractExpressRoutes {
   private setupRouter(): void {
     //returns data: {array<[group_id:interger, user_id:interger, data:string, created_at:time]>}
     this.router.get("/", (req: any, res: { send: (arg0: any) => void; }) => {
-      this.dbHelpers
+      console.log('here')
+       this.dbHelpers
         //get all groups posts
         .getAllGroups()
         .then((data: any) => {
           res.send(data);
-        })
+        }) 
         .catch((e: { stack: any; }) => e.stack);
+       
     });
   }
 }

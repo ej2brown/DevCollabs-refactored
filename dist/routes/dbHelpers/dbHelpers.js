@@ -1,118 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dbHelpersClass = void 0;
-// const bcrypt = require("bcrypt");
-class dbHelpersClass {
-    constructor(db) {
-        this.createPost = (groupId, userId, data, image_url) => {
-            return this.db
-                .query(`
-      INSERT INTO posts 
-      (group_id, user_id, data, image_url, created_at)
-      VALUES
-      ($1 , $2, $3, $4, NOW()::TIMESTAMP)
-      RETURNING *;
-      `, [groupId, userId, data, image_url])
-                .then((res) => res.rows[0])
-                .catch((e) => e.stack);
-        };
-        this.removeSubscription = (userId, groupId) => {
-            return this.db
-                .query(`
-        DELETE FROM subscriptions
-        WHERE user_id = $1
-        AND group_id = $2; 
-      `, [userId, groupId])
-                .then((res) => res.rows[0])
-                .catch((e) => e.stack);
-        };
-        this.getSubscriptionsWithUser = (userId, groupId) => {
-            return this.db
-                .query(`
-        SELECT * FROM subscriptions
-        WHERE user_id = $1 
-        AND group_id = $2
-        LIMIT 1;
-          `, [userId, groupId])
-                .then((res) => res.rows[0])
-                .catch((e) => e.stack);
-        };
-        this.deleteGroup = (groupId) => {
-            return this.db
-                .query(`
-        DELETE FROM groups
-        WHERE id = $1;
-        `, [groupId])
-                .then((res) => res.rows[0])
-                .catch((e) => e.stack);
-        };
-        /* For ../rate.ts */
-        this.getUserRating = (userId) => {
-            return this.db
-                .query(`
-          SELECT AVG(rating)
-          FROM ratings
-          WHERE rated_user_id = $1;
-        `, [userId])
-                .then((res) => res.rows[0])
-                .catch((e) => e);
-        };
-        this.checkRatingExist = (ratedId, raterId) => {
-            return this.db
-                .query(`
-        SELECT * FROM ratings
-        WHERE rated_user_id = $1
-        AND rater_user_id = $2;
-      `, [ratedId, raterId])
-                .then((res) => res.rows[0] || null)
-                .catch((e) => e);
-        };
-        this.rateUser = (ratedId, raterId, rating) => {
-            return this.db
-                .query(`
-      INSERT INTO ratings
-      (rater_user_id, rated_user_id, rating)
-      VALUES
-      ($1, $2, $3)
-      RETURNING *;
-      `, [raterId, ratedId, rating])
-                .then((res) => res.rows[0] || null)
-                .catch((e) => e);
-        };
-        this.updateRating = (ratedId, raterId, newRating) => {
-            return this.db
-                .query(`
-      UPDATE ratings
-      SET rating = $3
-      WHERE rated_user_id = $1
-      AND rater_user_id = $2
-      RETURNING *;
-      `, [ratedId, raterId, newRating])
-                .then((res) => res.rows[0] || null)
-                .catch((e) => e);
-        };
-        this.db = db;
-    }
+// export class dbHelpersClass implements IQuery {
+module.exports = db => {
+    // db: any;
+    // constructor(db: any) {
+    //   this.db = db;
+    // }
     /* For ../user.ts */
-    addUser(user) {
+    const addUser = function (user) {
         const { username, email, password, avatar_image } = user;
-        return this.db
+        return db
             .query(`
         INSERT INTO users
         (username, email, password, avatar_image)
         VALUES
         ($1, $2, $3, $4)
         RETURNING *;
-        `, [username, email, bcrypt.hashSync(password, 12), avatar_image])
+        `, [username, email, password, avatar_image] //removed bcrypt bcrypt.hashSync(password, 12)
+            )
             .then((res) => {
-            if (res.rows.length === 0)
-                return null;
-            return res.rows[0];
-        })
+                if (res.rows.length === 0)
+                    return null;
+                return res.rows[0];
+            })
             .catch((e) => null);
-    }
-    getGroupsNames(userId) {
-        return this.db
+    };
+    const getGroupsNames = function (userId) {
+        return db
             .query(`
         SELECT groups.id, groups.name
         FROM subscriptions
@@ -120,25 +34,25 @@ class dbHelpersClass {
         WHERE user_id = $1;
         `, [userId])
             .then((res) => {
-            if (res.rows.length === 0)
-                return null;
-            return res.rows;
-        });
-    }
+                if (res.rows.length === 0)
+                    return null;
+                return res.rows;
+            });
+    };
     /* For ../group.ts */
-    getAllGroups() {
-        return this.db
+    const getAllGroups = function () {
+        return db
             .query(`
         SELECT * FROM groups;
         `)
             .then((res) => {
-            if (res.rows.length === 0)
-                return null;
-            return res.rows;
-        });
-    }
-    getGroupsPosts(groupId) {
-        return this.db
+                if (res.rows.length === 0)
+                    return null;
+                return res.rows;
+            });
+    };
+    const getGroupsPosts = function (groupId) {
+        return db
             .query(`
         SELECT posts.*, username
         FROM posts
@@ -147,28 +61,50 @@ class dbHelpersClass {
         ORDER BY id DESC;
         `, [groupId])
             .then((res) => {
-            if (res.rows.length === 0)
-                return null;
-            return res.rows;
-        });
-    }
-    checkUserSubscription(userId, groupId) {
-        return this.db
+                if (res.rows.length === 0)
+                    return null;
+                return res.rows;
+            });
+    };
+    const createPost = function (groupId, userId, data, image_url) {
+        return db
+            .query(`
+      INSERT INTO posts 
+      (group_id, user_id, data, image_url, created_at)
+      VALUES
+      ($1 , $2, $3, $4, NOW()::TIMESTAMP)
+      RETURNING *;
+      `, [groupId, userId, data, image_url])
+            .then((res) => res.rows[0])
+            .catch((e) => e.stack);
+    };
+    const removeSubscription = function (userId, groupId) {
+        return db
+            .query(`
+        DELETE FROM subscriptions
+        WHERE user_id = $1
+        AND group_id = $2; 
+      `, [userId, groupId])
+            .then((res) => res.rows[0])
+            .catch((e) => e.stack);
+    };
+    const checkUserSubscription = function (userId, groupId) {
+        return db
             .query(`
         SELECT * FROM subscriptions 
         WHERE user_id = $1 
         AND group_id = $2;
         `, [userId, groupId])
             .then((res) => {
-            if (res.rows.length === 0) {
-                return false;
-            }
-            return true;
-        })
+                if (res.rows.length === 0) {
+                    return false;
+                }
+                return true;
+            })
             .catch((e) => e.stack);
-    }
-    addSubscription(groupId, userId, is_admin) {
-        return this.db
+    };
+    const addSubscription = function (groupId, userId, is_admin) {
+        return db
             .query(`
     INSERT INTO subscriptions
     (group_id, user_id, is_admin)
@@ -178,9 +114,9 @@ class dbHelpersClass {
     `, [groupId, userId, is_admin])
             .then((res) => res.rows[0])
             .catch((e) => null);
-    }
-    createGroupAndSubscription(userId, groupName) {
-        return this.db
+    };
+    const createGroupAndSubscription = function (userId, groupName) {
+        return db
             .query(`
         INSERT INTO groups
         (name)
@@ -190,21 +126,105 @@ class dbHelpersClass {
         `, [groupName])
             .then((res) => res.rows[0].id)
             .then((groupId) => {
-            return this.db
-                .query(`
+                return db
+                    .query(`
           INSERT INTO subscriptions
           (group_id, user_id, is_admin)
           VALUES
           ($1, $2, $3)
           RETURNING *;
           `, [groupId, userId, true])
-                .then((res) => {
-                return res.rows[0];
-            })
-                .catch((e) => e);
-        });
-    }
-}
-exports.dbHelpersClass = dbHelpersClass;
-module.exports.dbHelpersClass = dbHelpersClass;
+                    .then((res) => {
+                        return res.rows[0];
+                    })
+                    .catch((e) => e);
+            });
+    };
+    const getSubscriptionsWithUser = function (userId, groupId) {
+        return db
+            .query(`
+        SELECT * FROM subscriptions
+        WHERE user_id = $1 
+        AND group_id = $2
+        LIMIT 1;
+          `, [userId, groupId])
+            .then((res) => res.rows[0])
+            .catch((e) => e.stack);
+    };
+    const deleteGroup = function (groupId) {
+        return db
+            .query(`
+        DELETE FROM groups
+        WHERE id = $1;
+        `, [groupId])
+            .then((res) => res.rows[0])
+            .catch((e) => e.stack);
+    };
+    /* For ../rate.ts */
+    const getUserRating = function (userId) {
+        return db
+            .query(`
+          SELECT AVG(rating)
+          FROM ratings
+          WHERE rated_user_id = $1;
+        `, [userId])
+            .then((res) => res.rows[0])
+            .catch((e) => e);
+    };
+    const checkRatingExist = function (ratedId, raterId) {
+        return db
+            .query(`
+        SELECT * FROM ratings
+        WHERE rated_user_id = $1
+        AND rater_user_id = $2;
+      `, [ratedId, raterId])
+            .then((res) => res.rows[0] || null)
+            .catch((e) => e);
+    };
+    const rateUser = (ratedId, raterId, rating) => {
+        return db
+            .query(`
+      INSERT INTO ratings
+      (rater_user_id, rated_user_id, rating)
+      VALUES
+      ($1, $2, $3)
+      RETURNING *;
+      `, [raterId, ratedId, rating])
+            .then((res) => res.rows[0] || null)
+            .catch((e) => e);
+    };
+    const updateRating = (ratedId, raterId, newRating) => {
+        return db
+            .query(`
+      UPDATE ratings
+      SET rating = $3
+      WHERE rated_user_id = $1
+      AND rater_user_id = $2
+      RETURNING *;
+      `, [ratedId, raterId, newRating])
+            .then((res) => res.rows[0] || null)
+            .catch((e) => e);
+    };
+
+
+    return {
+        addUser,
+        getGroupsNames,
+        createGroupAndSubscription,
+        deleteGroup,
+        getSubscriptionsWithUser,
+        addSubscription,
+        createPost,
+        removeSubscription,
+        getGroupsPosts,
+        getAllGroups,
+        checkUserSubscription,
+        getUserRating,
+        checkRatingExist,
+        rateUser,
+        updateRating,
+        test
+    };
+};
+// module.exports.dbHelpersClass = dbHelpersClass;
 //# sourceMappingURL=dbHelpers.js.map
