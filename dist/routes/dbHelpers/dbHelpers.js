@@ -17,12 +17,12 @@ module.exports = db => {
         ($1, $2, $3, $4)
         RETURNING *;
         `, [username, email, password, avatar_image] //removed bcrypt bcrypt.hashSync(password, 12)
-            )
+        )
             .then((res) => {
-                if (res.rows.length === 0)
-                    return null;
-                return res.rows[0];
-            })
+            if (res.rows.length === 0)
+                return null;
+            return res.rows[0];
+        })
             .catch((e) => null);
     };
     const getGroupsNames = function (userId) {
@@ -34,10 +34,10 @@ module.exports = db => {
         WHERE user_id = $1;
         `, [userId])
             .then((res) => {
-                if (res.rows.length === 0)
-                    return null;
-                return res.rows;
-            });
+            if (res.rows.length === 0)
+                return null;
+            return res.rows;
+        });
     };
     /* For ../group.ts */
     const getAllGroups = function () {
@@ -46,10 +46,10 @@ module.exports = db => {
         SELECT * FROM groups;
         `)
             .then((res) => {
-                if (res.rows.length === 0)
-                    return null;
-                return res.rows;
-            });
+            if (res.rows.length === 0)
+                return null;
+            return res.rows;
+        });
     };
     const getGroupsPosts = function (groupId) {
         return db
@@ -61,10 +61,10 @@ module.exports = db => {
         ORDER BY id DESC;
         `, [groupId])
             .then((res) => {
-                if (res.rows.length === 0)
-                    return null;
-                return res.rows;
-            });
+            if (res.rows.length === 0)
+                return null;
+            return res.rows;
+        });
     };
     const createPost = function (groupId, userId, data, image_url) {
         return db
@@ -96,11 +96,11 @@ module.exports = db => {
         AND group_id = $2;
         `, [userId, groupId])
             .then((res) => {
-                if (res.rows.length === 0) {
-                    return false;
-                }
-                return true;
-            })
+            if (res.rows.length === 0) {
+                return false;
+            }
+            return true;
+        })
             .catch((e) => e.stack);
     };
     const addSubscription = function (groupId, userId, is_admin) {
@@ -126,19 +126,19 @@ module.exports = db => {
         `, [groupName])
             .then((res) => res.rows[0].id)
             .then((groupId) => {
-                return db
-                    .query(`
+            return db
+                .query(`
           INSERT INTO subscriptions
           (group_id, user_id, is_admin)
           VALUES
           ($1, $2, $3)
           RETURNING *;
           `, [groupId, userId, true])
-                    .then((res) => {
-                        return res.rows[0];
-                    })
-                    .catch((e) => e);
-            });
+                .then((res) => {
+                return res.rows[0];
+            })
+                .catch((e) => e);
+        });
     };
     const getSubscriptionsWithUser = function (userId, groupId) {
         return db
@@ -205,8 +205,6 @@ module.exports = db => {
             .then((res) => res.rows[0] || null)
             .catch((e) => e);
     };
-
-
     return {
         addUser,
         getGroupsNames,
@@ -222,8 +220,7 @@ module.exports = db => {
         getUserRating,
         checkRatingExist,
         rateUser,
-        updateRating,
-        test
+        updateRating
     };
 };
 // module.exports.dbHelpersClass = dbHelpersClass;
