@@ -53,7 +53,7 @@ import {IDatabaseController} from '../databaseController.interface';
  *  }
  * 
  *  // This is a public method. Anyone can call this.
- *  public scratch() {
+ *  public scratch() { 
  *      this.makeScratchOnSomeone();
  *  }
  * 
