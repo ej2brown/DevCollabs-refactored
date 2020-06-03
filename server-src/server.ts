@@ -3,7 +3,8 @@ import { IndexExpressRoutes } from '../routes/index';
 import { GroupExpressRoutes } from '../routes/group';
 import { UserExpressRoutes } from '../routes/user';
 import { RateExpressRoutes } from '../routes/rate';
-import { postgresController } from '../src/database/postgres/postgresController';
+import { IDatabaseController } from '../src/database/databaseController.interface';
+import { PostgresController } from '../src/database/postgres/postgresController';
 
 require("dotenv").config()
 const express = require("express");
@@ -37,12 +38,12 @@ const dbParams = {
   database: process.env.DB_NAME,
 }
 const db = new Pool(dbParams)
-const postgresDb = new postgresController(db)
+const dbController: IDatabaseController = new PostgresController (db)
 
-const indexRoutes: IRoutes = new IndexExpressRoutes('/', postgresDb);
-const groupRoutes: IRoutes = new GroupExpressRoutes('/group', postgresDb);
-const userRoutes: IRoutes = new UserExpressRoutes('/user', postgresDb);
-const rateRoutes: IRoutes = new RateExpressRoutes('/rate', postgresDb);
+const indexRoutes: IRoutes = new IndexExpressRoutes('/', dbController);
+const groupRoutes: IRoutes = new GroupExpressRoutes('/group', dbController);
+const userRoutes: IRoutes = new UserExpressRoutes('/user', dbController);
+const rateRoutes: IRoutes = new RateExpressRoutes('/rate', dbController);
 
 app.use(indexRoutes.baseEndpoint, indexRoutes.router)
 app.use(groupRoutes.baseEndpoint, groupRoutes.router)
