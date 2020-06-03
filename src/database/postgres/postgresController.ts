@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 
 import { IDatabaseController } from '../databaseController.interface';
 
-export class postgresController implements IDatabaseController {
+export class PostgresController implements IDatabaseController {
   private m_db: any;
 
   constructor(db: any) {
