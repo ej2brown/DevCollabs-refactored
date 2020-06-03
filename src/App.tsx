@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Link } from 'react-router-dom';
 
-import { CodeEditor } from './components/CodeEditor';
-
 import Routes from './Routes';
 
 import './App.css';
@@ -12,7 +10,7 @@ const App = () => (
   <BrowserRouter>
     <div className="App">
       <header className="App-header">
-        <div>Hi!</div>
+        <div>DevCollabs</div>
       </header>
       <main className="container">
         <ul className="left">
