@@ -1,11 +1,11 @@
-import {IRoutes} from '../routes/routes.interface';
-import {IndexExpressRoutes} from '../routes/index';
-import {GroupExpressRoutes} from '../routes/group';
-import {UserExpressRoutes} from '../routes/user';
-import {RateExpressRoutes} from '../routes/rate';
+import { IRoutes } from '../routes/routes.interface';
+import { IndexExpressRoutes } from '../routes/index';
+import { GroupExpressRoutes } from '../routes/group';
+import { UserExpressRoutes } from '../routes/user';
+import { RateExpressRoutes } from '../routes/rate';
 
 require("dotenv").config()
-const express = require("express")
+const express = require("express");
 const app = express()
 const cors = require("cors")
 const bodyParser = require("body-parser")
@@ -18,6 +18,15 @@ const PORT = 3001
 
 const server = http.createServer(app)
 
+// const webpack = require('webpack');
+// const webpackDevMiddleware = require('webpack-dev-middleware');
+// const config = require('./webpack.config.js');
+// const compiler = webpack(config);
+
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath,
+// }));
+
 const { Pool } = require("pg")
 const dbParams = {
   host: process.env.DB_HOST,
@@ -27,7 +36,6 @@ const dbParams = {
   database: process.env.DB_NAME,
 }
 const db = new Pool(dbParams)
-
 
 const indexRoutes: IRoutes = new IndexExpressRoutes('/', db);
 const groupRoutes: IRoutes = new GroupExpressRoutes('/group', db);

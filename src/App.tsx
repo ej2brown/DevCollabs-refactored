@@ -1,5 +1,6 @@
 import React from 'react';
-import { CodeEditor } from './components/CodeEditor';
+import { CodeEditor } from './CodeEditor';
+import './App.css';
 
 function App() {
   return (
