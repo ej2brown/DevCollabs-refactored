@@ -1,12 +1,12 @@
 import { AbstractExpressRoutes } from "./expressRoutes";
-const dbHelpersClass = require("./dbHelpers/dbHelpers.ts");
+import type { IDatabaseController } from '../src/database/databaseController.interface';
 
 export class GroupExpressRoutes extends AbstractExpressRoutes {
   private m_dbHelpers: any;
 
-  constructor(baseEndpoint: string, db: any) {
+  constructor(baseEndpoint: string, db: IDatabaseController) {
     super(baseEndpoint);
-    this.m_dbHelpers = dbHelpersClass(db);
+    this.m_dbHelpers = db;
     this.setupRouter();
   }
 
@@ -15,111 +15,113 @@ export class GroupExpressRoutes extends AbstractExpressRoutes {
   }
 
   private setupRouter(): void {
-    this.router.get("/:group_id", (req, res) => {
+    this.router.get("/:group_id", (req: { params: { group_id: any; }; }, res: { send: (arg0: any) => void; }) => {
       const selectedGroupId = req.params.group_id;
       this.dbHelpers
         //gets the posts of a group
         .getGroupsPosts(selectedGroupId)
-        .then((data) => {
+        .then((data: any) => {
           res.send(data);
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
 
-    this.router.post("/:group_id/post/create", (req, res) => {
+    this.router.post("/:group_id/post/create", (req: { params: { group_id: any; }; body: { userId: any; data: any; image_url: any; }; }, res: { send: (arg0: null) => void; }) => {
       const groupId = req.params.group_id;
       const { userId, data, image_url } = req.body;
 
       this.dbHelpers
         .getSubscriptionsWithUser(userId, groupId)
-        .then((subscription) => {
+        .then((subscription: any) => {
           //
           if (subscription) {
             //If subscription does exist create a post
             this.dbHelpers
               .createPost(groupId, userId, data, image_url)
-              .then((data) => {
+              .then((data: any) => {
                 res.send(data);
               })
-              .catch((e) => e.stack);
+              .catch((e: { stack: any; }) => e.stack);
           } else {
             res.send(null);
           }
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
 
-    this.router.delete("/:group_id/subscription", (req, res) => {
+    this.router.delete("/:group_id/subscription", (req: { params: { group_id: any; }; body: { id: any; }; }, res: { send: (arg0: null) => void; }) => {
       const groupId = req.params.group_id;
       const userId = req.body.id;
 
       this.dbHelpers
         .checkUserSubscription(userId, groupId)
-        .then((subscription) => {
+        .then((subscription: boolean) => {
           //If user is admin of the group they're subscribed to
           if (subscription === true) {
             this.dbHelpers
               .removeSubscription(userId, groupId)
-              .then((data) => res.send(data))
-              .catch((e) => e.stack);
+              .then((data: any) => res.send(data))
+              .catch((e: { stack: any; }) => e.stack);
           } else {
             res.send(null);
           }
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
 
-    this.router.post("/:group_id/subscription", (req, res) => {
+    this.router.post("/:group_id/subscription", (req: { params: { group_id: any; }; body: { id: any; }; }, res: { send: (arg0: null) => void; }) => {
       const groupId = req.params.group_id;
       const userId = req.body.id;
 
       this.dbHelpers
         .checkUserSubscription(userId, groupId)
-        .then((subscription) => {
+        .then((subscription: any) => {
           //If user is admin of the group they're subscribed to
           if (!subscription) {
             this.dbHelpers
               .addSubscription(groupId, userId, false)
-              .then((data) => {
+              .then((data: any) => {
                 res.send(data);
               })
-              .catch((e) => e.stack);
+              .catch((e: { stack: any; }) => e.stack);
           } else {
             res.send(null);
           }
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
 
-    this.router.post("/create", (req, res) => {
+    this.router.post("/create", (req: { body: { userId: any; groupName: any; }; }, res: { send: (arg0: any) => any; }) => {
       const { userId, groupName } = req.body;
 
       this.dbHelpers
         .createGroupAndSubscription(userId, groupName)
-        .then((data) => res.send(data))
-        .catch((e) => e.stack);
+        .then((data: any) => res.send(data))
+        .catch((e: { stack: any; }) => e.stack);
     });
 
-    this.router.delete("/:group_id/delete", (req, res) => {
+    this.router.delete("/:group_id/delete", (req: { params: { group_id: any; }; body: { id: any; }; }, res: { send: (arg0: null) => void; }) => {
       const groupId = req.params.group_id;
       const userId = req.body.id;
 
       this.dbHelpers
         .getSubscriptionsWithUser(userId, groupId)
-        .then((subscription) => {
+        .then((subscription: { is_admin: any; }) => {
           //If user is admin of the group they're subscribed to
           if (subscription && subscription.is_admin) {
             this.dbHelpers
               .deleteGroup(groupId)
-              .then((data) => {
+              .then((data: any) => {
                 res.send(data);
               })
-              .catch((e) => e.stack);
+              .catch((e: { stack: any; }) => e.stack);
           } else {
             res.send(null);
           }
         })
-        .catch((e) => e.stack);
+        .catch((e: { stack: any; }) => e.stack);
     });
   }
 }
+
+module.exports.GroupExpressRoutes = GroupExpressRoutes;
