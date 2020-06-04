@@ -9,8 +9,18 @@ const welcomeHTML = `<h1>Welcome Devs!</h1>`;
 // const initialState: CodeEditorState = {
 //   value: welcomeHTML,
 // };
+
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+
+`;
+
 const LiveHTML = styled.div`
-  width: 50%;
+  display: flex;
+  border: solid 1px gray;
+  height: 500px;
+  width: 500px;
 `;
 
 export function CodeEditor() {
@@ -23,9 +33,9 @@ export function CodeEditor() {
   }
 
   return (
-    <>
+    <Div>
       <AceEditor value={snippetValue} onChange={onChange} />
       <LiveHTML id="live-html" />
-    </>
+    </Div>
   );
 }
