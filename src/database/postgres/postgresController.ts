@@ -16,7 +16,7 @@ export class PostgresController implements IDatabaseController {
     return this.m_db;
 }
   /* For ../user.ts */
-  addUser(user: any) {
+  public addUser(user: any) {
     const { username, email, password, avatar_image } = user;
     return this.db
       .query(
@@ -36,7 +36,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: any) => null);
   }
 
-  getGroupsNames(userId: number) {
+  public getGroupsNames(userId: number) {
     return this.db
       .query(
         `
@@ -53,7 +53,7 @@ export class PostgresController implements IDatabaseController {
       });
   }
   /* For ../group.ts */
-  getAllGroups() {
+  public getAllGroups() {
     return this.db
       .query(
         `
@@ -66,7 +66,7 @@ export class PostgresController implements IDatabaseController {
       });
   }
 
-  getGroupsPosts(groupId: number) {
+  public getGroupsPosts(groupId: number) {
     return this.db
       .query(
         `
@@ -84,7 +84,7 @@ export class PostgresController implements IDatabaseController {
       });
   }
 
-  createPost(groupId: number, userId: number, data: any, image_url: string) {
+  public createPost(groupId: number, userId: number, data: any, image_url: string) {
     return this.db
       .query(
         `
@@ -100,7 +100,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: { stack: any; }) => e.stack);
   };
 
-  removeSubscription(userId: number, groupId: number) {
+  public removeSubscription(userId: number, groupId: number) {
     return this.db
       .query(
         `
@@ -114,7 +114,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: { stack: any; }) => e.stack);
   };
 
-  checkUserSubscription(userId: number, groupId: number) {
+  public checkUserSubscription(userId: number, groupId: number) {
     return this.db
       .query(
         `
@@ -133,7 +133,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: { stack: any; }) => e.stack);
   }
 
-  addSubscription(groupId: number, userId: number, is_admin: boolean) {
+  public addSubscription(groupId: number, userId: number, is_admin: boolean) {
     return this.db
       .query(
         `
@@ -149,7 +149,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: any) => null);
   }
 
-  createGroupAndSubscription(userId: number, groupName: string) {
+  public createGroupAndSubscription(userId: number, groupName: string) {
     return this.db
       .query(
         `
@@ -181,7 +181,7 @@ export class PostgresController implements IDatabaseController {
       });
   }
 
-  getSubscriptionsWithUser(userId: number, groupId: number) {
+  public getSubscriptionsWithUser(userId: number, groupId: number) {
     return this.db
       .query(
         `
@@ -196,7 +196,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: { stack: any; }) => e.stack);
   };
 
-  deleteGroup(groupId: number) {
+  public deleteGroup(groupId: number) {
     return this.db
       .query(
         `
@@ -211,7 +211,7 @@ export class PostgresController implements IDatabaseController {
 
   /* For ../rate.ts */
 
-  getUserRating(userId: number) {
+  public getUserRating(userId: number) {
     return this.db
       .query(
         `
@@ -225,7 +225,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: any) => e);
   };
 
-  checkRatingExist(ratedId: number, raterId: number) {
+  public checkRatingExist(ratedId: number, raterId: number) {
     return this.db
       .query(
         `
@@ -239,7 +239,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: any) => e);
   };
 
-  rateUser(ratedId: number, raterId: number, rating: number) {
+  public rateUser(ratedId: number, raterId: number, rating: number) {
     return this.db
       .query(
         `
@@ -255,7 +255,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: any) => e);
   };
 
-  updateRating(ratedId: number, raterId: number, newRating: number) {
+  public updateRating(ratedId: number, raterId: number, newRating: number) {
     return this.db
       .query(
         `
@@ -271,7 +271,7 @@ export class PostgresController implements IDatabaseController {
       .catch((e: any) => e);
   }
 
-  addGroup(name: string) {
+  public addGroup(name: string) {
     return this.db
       .query(
         `
