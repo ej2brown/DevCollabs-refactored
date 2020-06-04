@@ -1,5 +1,5 @@
 import { AbstractExpressRoutes } from "./expressRoutes";
-import { IDatabaseController } from '../src/database/databaseController.interface';
+import type { IDatabaseController } from '../src/database/databaseController.interface';
 
 export class GroupExpressRoutes extends AbstractExpressRoutes {
   private m_dbHelpers: any;
