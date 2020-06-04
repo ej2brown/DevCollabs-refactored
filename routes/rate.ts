@@ -1,12 +1,12 @@
 import { AbstractExpressRoutes } from "./expressRoutes";
-const dbHelpersClass = require("./dbHelpers/dbHelpers");
+import { IDatabaseController } from '../src/database/databaseController.interface';
 
 export class RateExpressRoutes extends AbstractExpressRoutes {
-  private m_dbHelpers: any;
+  private m_dbHelpers: IDatabaseController;
 
-  constructor(baseEndpoint: string, db: any) {
+  constructor(baseEndpoint: string, db: IDatabaseController) {
     super(baseEndpoint);
-    this.m_dbHelpers = dbHelpersClass(db);
+    this.m_dbHelpers = db;
     this.setupRouter();
   }
 
