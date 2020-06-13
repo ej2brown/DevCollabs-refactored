@@ -1,13 +1,13 @@
 const bcrypt = require("bcrypt");
 
-import { IDatabaseController } from '../databaseController.interface';
+import { IDatabaseController } from "../databaseController.interface";
 
 export class PostgresController implements IDatabaseController {
   private m_db: any;
 
   constructor(db: any) {
     if (db === null || db === void 0) {
-      throw new Error('Cannot access db'); 
+      throw new Error("Cannot access db"); 
   }
     this.m_db = db;
   }
@@ -98,7 +98,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0])
       .catch((e: { stack: any; }) => e.stack);
-  };
+  }
 
   public removeSubscription(userId: number, groupId: number) {
     return this.db
@@ -112,7 +112,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0])
       .catch((e: { stack: any; }) => e.stack);
-  };
+  }
 
   public checkUserSubscription(userId: number, groupId: number) {
     return this.db
@@ -194,7 +194,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0])
       .catch((e: { stack: any; }) => e.stack);
-  };
+  }
 
   public deleteGroup(groupId: number) {
     return this.db
@@ -207,7 +207,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0])
       .catch((e: { stack: any; }) => e.stack);
-  };
+  }
 
   /* For ../rate.ts */
 
@@ -223,7 +223,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0])
       .catch((e: any) => e);
-  };
+  }
 
   public checkRatingExist(ratedId: number, raterId: number) {
     return this.db
@@ -237,7 +237,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0] || null)
       .catch((e: any) => e);
-  };
+  }
 
   public rateUser(ratedId: number, raterId: number, rating: number) {
     return this.db
@@ -253,7 +253,7 @@ export class PostgresController implements IDatabaseController {
       )
       .then((res: { rows: any[]; }) => res.rows[0] || null)
       .catch((e: any) => e);
-  };
+  }
 
   public updateRating(ratedId: number, raterId: number, newRating: number) {
     return this.db
@@ -284,7 +284,7 @@ export class PostgresController implements IDatabaseController {
         [name]
       )
       .then(res => res.rows[0])
-      .catch(e => null)
+      .catch(e => null);
   }
 }
 /**

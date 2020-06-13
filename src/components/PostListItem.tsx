@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 interface Props {
     key: number,
@@ -18,7 +18,7 @@ const PostListItem = ({ user, children, created_at, image_url }: Props): any => 
             <div>{created_at}</div>
             <div>{children}</div>
         </>
-    )
-}
+    );
+};
 
-export default PostListItem
+export default PostListItem;

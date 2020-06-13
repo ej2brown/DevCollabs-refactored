@@ -1,22 +1,22 @@
-import React from "react"
+import React from "react";
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
-import List from "@material-ui/core/List"
-import ListItem, { ListItemProps } from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
+import List from "@material-ui/core/List";
+import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 
-import * as moment from "moment"
+import * as moment from "moment";
 
 interface Props {
   news: any
 }
 
 function ListItemLink(props: ListItemProps<"a", { button?: true }>) {
-  return <ListItem button component="a" {...props} />
+  return <ListItem button component="a" {...props} />;
 }
 
 const News = ({news} : Props) => {
@@ -41,12 +41,12 @@ const News = ({news} : Props) => {
                   </>
                 )}
               </ListItemLink>
-            )
+            );
           })}
         </List>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default News
+export default News;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 //hooks
 import usePublic from "../components/hooks/usePublic";
@@ -9,7 +9,7 @@ import useApplicationData from "../components/hooks/useApplicationData";
 import News from "../components/News";
 // import Github from "../components/Github";
 
-import "./containers.css"
+import "./containers.css";
 
 const Home = () => {
   const { news } = usePublic();
@@ -27,7 +27,7 @@ const Home = () => {
         <News news={news} />
       </section>
     </>
-  )
+  );
 };
 
 export default Home;

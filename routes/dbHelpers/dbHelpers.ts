@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-import type IQuery from "./interface"
+import type IQuery from "./interface";
 
 // export class dbHelpersClass implements IQuery {
 module.exports = db => {
@@ -28,7 +28,7 @@ module.exports = db => {
         return res.rows[0];
       })
       .catch((e: any) => null);
-  }
+  };
 
   const getGroupsNames = function (userId: number) {
     return db
@@ -45,7 +45,7 @@ module.exports = db => {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
-  }
+  };
 
   /* For ../group.ts */
   const getAllGroups = function () {
@@ -59,7 +59,7 @@ module.exports = db => {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
-  }
+  };
 
   const getGroupsPosts = function (groupId: number) {
     return db
@@ -77,7 +77,7 @@ module.exports = db => {
         if (res.rows.length === 0) return null;
         return res.rows;
       });
-  }
+  };
 
   const createPost = function (groupId: number, userId: number, data: any, image_url: string) {
     return db
@@ -126,7 +126,7 @@ module.exports = db => {
         return true;
       })
       .catch((e: { stack: any; }) => e.stack);
-  }
+  };
 
   const addSubscription = function (groupId: number, userId: number, is_admin: boolean) {
     return db
@@ -142,7 +142,7 @@ module.exports = db => {
       )
       .then((res: { rows: any[]; }) => res.rows[0])
       .catch((e: any) => null);
-  }
+  };
 
   const createGroupAndSubscription = function (userId: number, groupName: string) {
     return db
@@ -174,7 +174,7 @@ module.exports = db => {
           })
           .catch((e: any) => e);
       });
-  }
+  };
 
   const getSubscriptionsWithUser = function (userId: number, groupId: number) {
     return db
@@ -264,7 +264,7 @@ module.exports = db => {
       )
       .then((res: { rows: any[]; }) => res.rows[0] || null)
       .catch((e: any) => e);
-  }
+  };
 
   return {
     addUser,

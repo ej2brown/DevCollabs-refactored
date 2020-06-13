@@ -1,6 +1,6 @@
-import { IRoutes } from './routes.interface';
+import { IRoutes } from "./routes.interface";
 
-const express = require('express');
+const express = require("express");
 
 export abstract class AbstractExpressRoutes implements IRoutes {
   private m_baseEndpoint: string;
@@ -8,7 +8,7 @@ export abstract class AbstractExpressRoutes implements IRoutes {
 
   constructor(baseEndpoint: string) {
       if (baseEndpoint === null || baseEndpoint === void 0) {
-          throw new Error('Cannot build routes with null or undefined base endpoint string'); 
+          throw new Error("Cannot build routes with null or undefined base endpoint string"); 
       }
 
       this.m_baseEndpoint = baseEndpoint;

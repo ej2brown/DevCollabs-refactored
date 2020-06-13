@@ -1,5 +1,5 @@
-import React from "react"
-import PostListItem from "./PostListItem"
+import React from "react";
+import PostListItem from "./PostListItem";
 
 interface Props {
   posts: object[]
@@ -7,7 +7,7 @@ interface Props {
 
 const PostsList = ({ posts }: Props): any => {
 
-  if (!posts) { return null }
+  if (!posts) { return null; }
   const PostsList = posts.map((post: any) => {
     return (
       <PostListItem
@@ -19,9 +19,9 @@ const PostsList = ({ posts }: Props): any => {
       >
         {post.data}
       </PostListItem>
-    )
-  })
+    );
+  });
   return PostsList;
-}
+};
 
-export default PostsList
+export default PostsList;

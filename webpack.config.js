@@ -1,21 +1,21 @@
-var path = require('path');
- var webpack = require('webpack');
+var path = require("path");
+ var webpack = require("webpack");
 
  module.exports = {
-    mode: 'development',
-     entry: './src/index.ts',
+    mode: "development",
+     entry: "./src/index.ts",
      output: {
-         path: path.resolve(__dirname, 'build'),
-         filename: 'main.bundle.ts',
-         publicPath: '/',
+         path: path.resolve(__dirname, "build"),
+         filename: "main.bundle.ts",
+         publicPath: "/",
      },
      module: {
          rules: [
              {
                  test: /\.ts$/,
-                 loader: 'babel-loader',
+                 loader: "babel-loader",
                  query: {
-                     presets: ['es2015']
+                     presets: ["es2015"]
                  }
              }
          ]
@@ -23,7 +23,7 @@ var path = require('path');
      stats: {
          colors: true
      },
-     devtool: 'source-map',
+     devtool: "source-map",
      devServer: {
         inline: false,
     },

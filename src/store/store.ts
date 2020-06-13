@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 /**
  * @function configureStore: for logic related to configuring the store 
  * including importing reducers, middleware, and enhancers

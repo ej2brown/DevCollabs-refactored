@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 interface Props {
   users: any
@@ -28,7 +28,7 @@ export function Chat({ users, messages, handleSubmit }: Props) {
       >
       </button>
     </div>
-  )
+  );
 }
 
-export default Chat
+export default Chat;

@@ -1,5 +1,5 @@
 import { AbstractExpressRoutes } from "./expressRoutes";
-import type { IDatabaseController } from '../src/database/databaseController.interface';
+import type { IDatabaseController } from "../server-src/database/databaseController.interface";
 
 export class RateExpressRoutes extends AbstractExpressRoutes {
   private m_dbHelpers: IDatabaseController;
@@ -31,9 +31,9 @@ export class RateExpressRoutes extends AbstractExpressRoutes {
       const rating = 5;
 
       // const { raterId, rating } = req.body;
-      console.log('here')
+      console.log("here");
 
-      console.log(req.body)
+      console.log(req.body);
       this.dbHelpers
         .checkRatingExist(ratedId, raterId)
         .then((data: any) => {

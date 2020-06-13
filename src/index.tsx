@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './index.css';
+import "./index.css";
 
-import App from './App';
-import { AppContainer } from 'react-hot-loader';
+import App from "./App";
+import { AppContainer } from "react-hot-loader";
 
-import { store } from './store/store';
-import { Provider } from 'react-redux';
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 
 const render = (App) => {
   ReactDOM.render(
@@ -18,7 +18,7 @@ const render = (App) => {
         </AppContainer>
       </Provider>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById("root")
   );
 };
 
@@ -26,5 +26,5 @@ render(App);
 
 
 if (module.hot) {
-  module.hot.accept('./App', () => { render(App); });
+  module.hot.accept("./App", () => { render(App); });
 }

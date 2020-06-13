@@ -1,6 +1,6 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { Home, Group, CodeRoom } from './containers';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import { Home, Group, CodeRoom } from "./containers";
 
 const Routes = () => (
   <Switch>

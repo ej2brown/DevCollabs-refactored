@@ -1,5 +1,5 @@
 import { AbstractExpressRoutes } from "./expressRoutes";
-import type { IDatabaseController } from '../src/database/databaseController.interface';
+import type { IDatabaseController } from "../server-src/database/databaseController.interface";
 
 export class GroupExpressRoutes extends AbstractExpressRoutes {
   private m_dbHelpers: any;
@@ -17,6 +17,7 @@ export class GroupExpressRoutes extends AbstractExpressRoutes {
   private setupRouter(): void {
     this.router.get("/:group_id", (req: { params: { group_id: any; }; }, res: { send: (arg0: any) => void; }) => {
       const selectedGroupId = req.params.group_id;
+      console.log(typeof this.dbHelpers.getGroupsPosts);
       this.dbHelpers
         //gets the posts of a group
         .getGroupsPosts(selectedGroupId)

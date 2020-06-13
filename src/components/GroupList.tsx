@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setGroup, setGroups } from "./groupListSlice"
-import GroupListItem from "./GroupListItem"
+import { setGroup, setGroups } from "./groupListSlice";
+import GroupListItem from "./GroupListItem";
 
 interface Props {
     groups: any
@@ -18,7 +18,7 @@ export default function GroupList({ groups, setGroup }: Props) {
                 name={group.name}
                 setGroup={setGroup}
             />
-        )
-    })
-    return <div>{GroupList}</div>
+        );
+    });
+    return <div>{GroupList}</div>;
 }

@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AceEditor from "react-ace";
 import snippetValue from "./codeEditorSlice";
-import styled from 'styled-components'
-
-const welcomeHTML = `<h1>Welcome Devs!</h1>`;
+import styled from "styled-components";
 
 // const initialState: CodeEditorState = {
 //   value: welcomeHTML,
@@ -23,13 +21,13 @@ const LiveHTML = styled.div`
   width: 500px;
 `;
 
-export function CodeEditor() {
+export function CodeEditor(props : any) {
   const dispatch = useDispatch();
-  const [snippetValue, setSnippetValue] = useState(welcomeHTML);
+  const [snippetValue, setSnippetValue] = useState("");
 
   function onChange(newValue: string) {
     setSnippetValue(newValue);
-    document.getElementById('live-html')!.innerHTML = snippetValue
+    props.function(newValue);
   }
 
   return (
