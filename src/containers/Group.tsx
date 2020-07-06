@@ -1,35 +1,146 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { Redirect } from "react-router";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import axios from "axios";
+
+import styled from "styled-components";
+import { Button, Input } from "@material-ui/core";
 
 //components
 import UserList from "../components/UserList";
-import PostList from "../components/PostList";
+import { PostsList, PostContainer } from "../components/PostList";
+import PostForm from "../components/PostForm";
+import GroupList from "../components/GroupList";
+import CodeRoom from "./CodeRoom";
 
-const users = [
-    { id: 1, username: "tomas-wen", email: "tomaswen@gmail.com", avatar_image: "/src/images/johnDoe.png" },
-    { id: 2, username: "bradley-mark", email: "bmark88@gmail.com", avatar_image: "/src/images/johnDoe.png" },
-    { id: 3, username: "elizabeth-brown", email: "elizabethjbrown78@gmail.com", avatar_image: "/src/images/johnDoe.png" },
-    { id: 4, username: "aliceLand1", email: "alice@hotmail.com", avatar_image: "/src/images/profile-hex.png" },
-    { id: 5, username: "johnDoe2", email: "john@hotmail.com", avatar_image: "/src/images/johnDoe.png" },
-    { id: 6, username: "alex3", email: "alex@hotmail.com", avatar_image: "/src/images/profile-hex.png" }
-];
+//hooks
+import useApplicationData from "../components/hooks/useApplicationData";
+import { render } from "react-dom";
 
-const posts = [
-    { id: 10, group_id: 2, user_id: 10, data: "www.google.ca", image_url: "https://www.google.com/logos/doodles/2020/celebrating-mbira-5807476258635776-2xa.gif", username: "elizabeth-brown", created_at: "2020-05-22T01:22:39.224Z" },
-    { id: 5, group_id: 2, user_id: 1, data: "TypeScript is the way to go", image_url: null, username: "tomas-wen", created_at: "2020-05-22T00:03:20.001Z" },
-    { id: 2, group_id: 2, user_id: 3, data: "Hacking for life", image_url: "https://image.shutterstock.com/image-vector/banner…thon-design-sprintlike-event-260nw-1418226719.jpg", username: "elizabeth-brown", created_at: "2020-05-22T00:03:20.001Z" }
-];
+import { users, posts } from "../data/data";
 
-const Home = () => (
-    <>
-        <header>
-            <h2>Group Page</h2>
-        </header>
+toast.configure();
 
-        <section>
-            <UserList users={users} />
-            <PostList posts={posts} />
-        </section>
-    </>
-);
+const Main = styled.div`
+  display: flex;
 
-export default Home;
+  @media (max-width: 620px) {
+    flex-direction: column;
+  }
+`;
+
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Form = styled.form`
+  width: 80%;
+`;
+
+const Section = styled.section`
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+`;
+
+const HideChat = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
+`;
+
+const Group = () => {
+    const { state, setGroup, fetchGroups } = useApplicationData();
+    const { group, groups, posts } = state;
+    const [roomID, setRoomID] = useState("");
+    const [groupName, setGroupName] = useState("");
+    const [redirect, setRedirect] = useState(false);
+
+    const createRoomAndNotify = async (evt: any) => {
+        evt.preventDefault();
+
+        const username = "AliceLand";
+
+        localStorage.setItem("roomData", JSON.stringify(roomID));
+        console.log(roomID);
+        console.log(evt.target.querySelector("input").value);
+
+        setTimeout(() => {
+            setRedirect(true);
+        }, 2000);
+
+        toast(`${username} will be redirected to ${roomID} shortly`, {
+            position: "bottom-right",
+            autoClose: 2000,
+            closeOnClick: false,
+            pauseOnHover: false,
+            hideProgressBar: true,
+        });
+    };
+
+    if (redirect) {
+        return <Redirect to="/coderoom" />;
+    }
+
+    const handlePost = (groupID: number) => {
+        setGroup(groupID);
+    };
+
+
+    return (
+        <>
+            <header>
+                <h2>Group Page</h2>
+            </header>
+
+            <section>
+                <GroupList groups={groups} group={group} setGroup={setGroup} />
+
+                <UserList users={users} />
+                <Section>
+                    <div
+                        title="Create or Join A Room"
+                    >
+                        <Form onSubmit={createRoomAndNotify}>
+                            <Input
+                                type="text"
+                                placeholder="Room Name"
+                                value={roomID || ""}
+                                disableUnderline
+                                onChange={evt => setRoomID(evt.target.value.trim().toLowerCase())}
+                            />
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                            >
+                                Create/Join
+                            </Button>
+                        </Form>
+                    </div>
+                    <PostContainer>
+                        <PostForm group={group} postFunction={handlePost} />
+                        <PostsList posts={posts} />
+                    </PostContainer>
+                </Section>
+                <PostContainer>
+                    <PostForm group={group} postFunction={handlePost} />
+                    <PostsList posts={posts} />
+                </PostContainer>
+            </section>
+        </>
+    );
+};
+
+export default Group;

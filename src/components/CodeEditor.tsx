@@ -21,9 +21,8 @@ const LiveHTML = styled.div`
   width: 500px;
 `;
 
-export function CodeEditor(props : any) {
-  const dispatch = useDispatch();
-  const [snippetValue, setSnippetValue] = useState("");
+export default function CodeEditor({snippetValue}: any) {
+  // const [snippetValue, setSnippetValue] = useState("");
 
   function onChange(newValue: string) {
     setSnippetValue(newValue);

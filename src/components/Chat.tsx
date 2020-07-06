@@ -6,8 +6,8 @@ interface Props {
   handleSubmit: any
 }
 
-export function Chat({ users, messages, handleSubmit }: Props) {
-
+export default function Chat({ users, messages, handleSubmit }: Props) {
+  console.log(messages)
   return (
     <div>
       <h4>ONLINE CHAT</h4>
@@ -20,15 +20,21 @@ export function Chat({ users, messages, handleSubmit }: Props) {
           </>
         ))}
       </div>
-      <button onSubmit={handleSubmit}
+      <form className="form" >
+      <input
+              type="text"
+              name="message"
+              // value={message || ""}
+              // onChange={evt => setMessage(evt.target.value)}
+              />
+      </form>
+      <button onClick={(evt) => {handleSubmit(evt);}}
         name="message"
         placeholder="Send a Message"
         type="submit"
         value="Submit"
-      >
+      > Send
       </button>
     </div>
   );
 }
-
-export default Chat;

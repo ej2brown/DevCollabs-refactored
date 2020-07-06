@@ -1,54 +1,53 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import * as moment from "moment";
 
-const ENDPOINT = "http://localhost:3001/";
+const SOCKET_IO_ENDPOINT = "http://localhost:3000";
 
 export default function socketChat(roomId: string) {
+    
+    // const [initialized, setInitialized] = useState(false);
+    const [room, setRoom] = useState([]);
     const [users, setUsers] = useState([]);
-    const [user, setUser] = useState({});
-    const [connection, setConnection] = useState(undefined);
+    const [user, setUser] = useState("Alice");
     const [messages, setMessages] = useState([]);
 
-    const conn = socketIOClient(ENDPOINT);
-
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-
-        connection.emit("message", {
+    //sends chat message data
+    const handleSubmit = (evt: any) => {
+        evt.preventDefault();
+        setMessages(prev => [...prev, data]);
+        conn.emit("message", {
             user,
-            message: event.target.message.value,
+            message: evt.target.message.value,
             roomId,
         });
-        event.target.message.value = "";
+        evt.target.message.value = "";
     };
 
     const websocketIDE = (value: any) => {
-        connection.emit("IDE", { value, roomId });
+        console.log(value, room);
+        conn.emit("IDE", { value, room });
     };
 
-    const onConnection = () => {
-        if (localStorage.getItem("session")) {
-            const userName: string = JSON.parse(
-                localStorage.getItem("session") || "{}"
-            ).username;
-            setUser(userName);
+    
+    const conn = socketIOClient(SOCKET_IO_ENDPOINT);
+    useEffect(() => {
+        // onConnection();
+        const userName = "Alice";
+        setUser(userName);
 
-            //server connection
-            setConnection(conn);
-            conn.emit("join", { userName, roomId });
+      //server connection
+        conn.emit("join", { user, roomId });
 
-            //users
-            conn.on("displayUsers", (data: any) => {
-                setUsers([...data.users]);
-            });
+        conn.on("displayUsers", (data: any) => {
+            setUsers([...data.users]);
+        });
 
-            conn.on("message", (data: any) => {
-                const now: string = moment().format("lll");
-                data.date = now;
-                setMessages(prev => [...prev, data]);
-            });
-        }
+        conn.on("message", (data: any) => {
+            const now: string = moment().format("lll");
+            data.date = now;
+            setMessages(prev => [...prev, data]);
+        });
 
         return () => {
             if (localStorage.getItem("session")) {
@@ -60,11 +59,13 @@ export default function socketChat(roomId: string) {
                 conn.close();
             }
         };
-    };
-
-    useEffect(() => {
-        onConnection();
     }, []);
 
-    return { handleSubmit, users, messages, websocketIDE, conn };
+    return {
+        handleSubmit,
+        users,
+        messages,
+        websocketIDE,
+        conn
+    };
 }
