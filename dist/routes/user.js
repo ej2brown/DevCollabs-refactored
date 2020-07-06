@@ -2,11 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserExpressRoutes = void 0;
 const expressRoutes_1 = require("./expressRoutes");
-const dbHelpersClass = require("./dbHelpers/dbHelpers");
 class UserExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
     constructor(baseEndpoint, db) {
         super(baseEndpoint);
-        this.m_dbHelpers = dbHelpersClass;
+        this.m_dbHelpers = db;
         this.setupRouter();
     }
     get dbHelpers() {

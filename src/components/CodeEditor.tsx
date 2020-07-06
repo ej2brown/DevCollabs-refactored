@@ -15,14 +15,14 @@ const Div = styled.div`
 `;
 
 const LiveHTML = styled.div`
-  display: flex;
+  // display: flex;
   border: solid 1px gray;
   height: 500px;
   width: 500px;
 `;
 
-export default function CodeEditor({snippetValue}: any) {
-  // const [snippetValue, setSnippetValue] = useState("");
+const CodeEditor = (props : any) => {
+  const [snippetValue, setSnippetValue] = useState("");
 
   function onChange(newValue: string) {
     setSnippetValue(newValue);
@@ -31,8 +31,10 @@ export default function CodeEditor({snippetValue}: any) {
 
   return (
     <Div>
-      <AceEditor value={snippetValue} onChange={onChange} />
+      <AceEditor value={props.snippetValue} onChange={onChange} />
       <LiveHTML id="live-html" />
     </Div>
   );
 }
+
+export default CodeEditor;

@@ -5,13 +5,8 @@ import CodeEditor from "../components/CodeEditor";
 import Chat from "../components/Chat";
 
 import socketChat from "../components/hooks/socketChat";
-import { createModifiersFromModifierFlags } from "typescript";
 
-// const messages = [{
-//   date: "05-05-2020",
-//   user: "aliceLand",
-//   message: "Hi!"
-// }];
+
 
 function CodeEditorPage({ roomId }: any) {
 // 
@@ -25,6 +20,9 @@ const SOCKET_IO_ENDPOINT = "http://localhost:3001";
 
     //sends chat message data
     const handleSubmit = (evt: any) => {
+      console.log(evt.target)
+      console.log(evt.target.value)
+
         evt.preventDefault();
         conn.emit("message", {
             user,
@@ -37,7 +35,7 @@ const SOCKET_IO_ENDPOINT = "http://localhost:3001";
 
     const websocketIDE = (value: any) => {
         console.log(value, room);
-        setSnippetValue(data.value);
+        // setSnippetValue(data.value);
         conn.emit("IDE", { value, room });
     };
 

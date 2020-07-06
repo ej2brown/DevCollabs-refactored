@@ -2,9 +2,9 @@
 require('dotenv').config();
 
 // other dependencies
-const fs = require('fs');
-const chalk = require('chalk');
-const Client = require('pg-native');
+import { readdirSync, readFileSync } from 'fs';
+import { cyan, green, red } from 'chalk';
+import Client from 'pg-native';
 
 // PG connection setup
 const connectionString = process.env.DATABASE_URL ||
@@ -13,23 +13,23 @@ const client = new Client();
 
 // Loads the schema files from db/schema
 const runSchemaFiles = function() {
-  console.log(chalk.cyan(`-> Loading Schema Files ...`));
-  const schemaFilenames = fs.readdirSync('./db/schema');
+  console.log(cyan(`-> Loading Schema Files ...`));
+  const schemaFilenames = readdirSync('./db/schema');
 
   for (const fn of schemaFilenames) {
-    const sql = fs.readFileSync(`./db/schema/${fn}`, 'utf8');
-    console.log(`\t-> Running ${chalk.green(fn)}`);
+    const sql = readFileSync(`./db/schema/${fn}`, 'utf8');
+    console.log(`\t-> Running ${green(fn)}`);
     client.querySync(sql);
   }
 };
 
 const runSeedFiles = function() {
-  console.log(chalk.cyan(`-> Loading Seeds ...`));
-  const schemaFilenames = fs.readdirSync('./db/seeds');
+  console.log(cyan(`-> Loading Seeds ...`));
+  const schemaFilenames = readdirSync('./db/seeds');
 
   for (const fn of schemaFilenames) {
-    const sql = fs.readFileSync(`./db/seeds/${fn}`, 'utf8');
-    console.log(`\t-> Running ${chalk.green(fn)}`);
+    const sql = readFileSync(`./db/seeds/${fn}`, 'utf8');
+    console.log(`\t-> Running ${green(fn)}`);
     client.querySync(sql);
   }
 };
@@ -41,6 +41,6 @@ try {
   runSeedFiles();
   client.end();
 } catch (err) {
-  console.error(chalk.red(`Failed due to error: ${err}`));
+  console.error(red(`Failed due to error: ${err}`));
   client.end();
 }

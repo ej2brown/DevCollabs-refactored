@@ -2,11 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GroupExpressRoutes = void 0;
 const expressRoutes_1 = require("./expressRoutes");
-const dbHelpersClass = require("./dbHelpers/dbHelpers");
 class GroupExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
     constructor(baseEndpoint, db) {
         super(baseEndpoint);
-        this.m_dbHelpers = dbHelpersClass;
+        this.m_dbHelpers = db;
         this.setupRouter();
     }
     get dbHelpers() {
@@ -15,6 +14,7 @@ class GroupExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
     setupRouter() {
         this.router.get("/:group_id", (req, res) => {
             const selectedGroupId = req.params.group_id;
+            console.log(typeof this.dbHelpers.getGroupsPosts);
             this.dbHelpers
                 //gets the posts of a group
                 .getGroupsPosts(selectedGroupId)

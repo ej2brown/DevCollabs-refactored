@@ -5,12 +5,10 @@ import "./index.css";
 
 import App from "./App";
 
-import { Provider } from "react-redux";
-
-const render = (App) => {
+const render = (Application) => {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <Application />
     </React.StrictMode>,
     document.getElementById("root")
   );

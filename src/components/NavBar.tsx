@@ -9,7 +9,7 @@ class NavBar extends React.Component {
             <ul className="nav navbar-nav pull-xs-right">
                 <li className="nav-item"><Link to="/">Home</Link></li>
                 <li className="nav-item"><Link to="/Group">Group</Link></li>
-                <li className="nav-item"><Link to="/CodeRoom">Code Room</Link></li>
+                <li className="nav-item"><Link to="/GithubSearch">Github Search</Link></li>
             </ul>
         );
     }

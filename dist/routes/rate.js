@@ -2,11 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RateExpressRoutes = void 0;
 const expressRoutes_1 = require("./expressRoutes");
-const dbHelpersClass = require("./dbHelpers/dbHelpers");
 class RateExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
     constructor(baseEndpoint, db) {
         super(baseEndpoint);
-        this.m_dbHelpers = dbHelpersClass(db);
+        this.m_dbHelpers = db;
         this.setupRouter();
     }
     get dbHelpers() {
@@ -24,7 +23,11 @@ class RateExpressRoutes extends expressRoutes_1.AbstractExpressRoutes {
         });
         this.router.post("/:rated_id", (req, res) => {
             const ratedId = req.params.rated_id;
-            const { raterId, rating } = req.body;
+            const raterId = 1;
+            const rating = 5;
+            // const { raterId, rating } = req.body;
+            console.log("here");
+            console.log(req.body);
             this.dbHelpers
                 .checkRatingExist(ratedId, raterId)
                 .then((data) => {

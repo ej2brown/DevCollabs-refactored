@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcrypt = require("bcrypt");
 // export class dbHelpersClass implements IQuery {
 module.exports = db => {
     // db: any;
@@ -16,7 +17,7 @@ module.exports = db => {
         VALUES
         ($1, $2, $3, $4)
         RETURNING *;
-        `, [username, email, password, avatar_image] //removed bcrypt bcrypt.hashSync(password, 12)
+        `, [username, email, bcrypt.hashSync(password, 12), avatar_image] //removed bcrypt bcrypt.hashSync(password, 12)
         )
             .then((res) => {
             if (res.rows.length === 0)
@@ -40,8 +41,7 @@ module.exports = db => {
         });
     };
     /* For ../group.ts */
-    const getAllGroups = function (test) {
-        console.log(test)
+    const getAllGroups = function () {
         return db
             .query(`
         SELECT * FROM groups;

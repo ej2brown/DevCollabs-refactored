@@ -20,7 +20,7 @@ export default function Chat({ users, messages, handleSubmit }: Props) {
           </>
         ))}
       </div>
-      <form className="form" >
+      <form className="form" onSubmit={(evt) => {handleSubmit(evt);}}>
       <input
               type="text"
               name="message"
@@ -28,7 +28,7 @@ export default function Chat({ users, messages, handleSubmit }: Props) {
               // onChange={evt => setMessage(evt.target.value)}
               />
       </form>
-      <button onClick={(evt) => {handleSubmit(evt);}}
+      <button 
         name="message"
         placeholder="Send a Message"
         type="submit"
